@@ -14,7 +14,7 @@ watch(search, (newVal) => {
     class="mb-3"
   >
     <template #left>
-      <VaNavbarItem class="tack-sans-notch-font title navbar-text-color">
+      <VaNavbarItem class="tack-sans-notch-font title navbar-text-color" @click="navigateTo('/')" style="cursor: pointer;">
         Ecommerce App
       </VaNavbarItem>
     </template>

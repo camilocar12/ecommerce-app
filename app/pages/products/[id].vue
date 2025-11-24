@@ -5,6 +5,8 @@ import { useToast } from 'vuestic-ui'
 const { id } = useRoute().params
 const { notify } = useToast()
 
+const imageIndex = ref(0)
+
 const { data: product, pending, error } = await useAsyncData<Product>(
   'product',
   () => $fetch(`/api/products/${id}`)
@@ -24,20 +26,76 @@ if (error.value) {
     <VaProgressCircle indeterminate :thickness="0.4" color="#A2D5C6"/>
   </div>
   <div v-else class="product-details-container">
-    {{product}}
+    <VaCarousel
+      v-model="imageIndex"
+      :items="product.images || []"
+      color="black"
+      height="50vh"
+      width="50vw"
+      indicators
+    />
+    <div class="product-details">
+      <div class="product-details-text">
+        <p class="product-title tack-sans-notch-font">{{ product.title }}</p>
+        <p class="product-description">{{ product.description }}</p>
+        <p class="product-category">{{ product.category.name }}</p>
+        <p class="product-price tack-sans-notch-font">$ {{ product.price }}</p>
+      </div>
+      <VaButton class="product-add-to-cart-button" size="large" icon="shopping_cart" color="#A2D5C6">Add to Cart</VaButton>
+    </div>
   </div>
 </template>
 
-<style scoped>.progress-container {
+<style scoped>
+.progress-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
 }
 
 .product-details-container{
   padding: 20px;
   display: flex;
-  align-items: center;
+  gap: 20px;
+}
+
+.product-details{
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
+
+.product-details-text{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.product-image{
+  width:50vw;
+  height: 50vh;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.product-title{
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.product-description{
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.product-price{
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #A2D5C6;
+}
+
+.product-add-to-cart-button{
+  width: fit-content;
+}
+
 </style>

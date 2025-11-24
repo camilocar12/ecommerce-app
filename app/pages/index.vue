@@ -3,8 +3,15 @@ import type { Product } from '@/types/product';
 import { useToast } from 'vuestic-ui'
 
 import NavBar from '@/components/ui/NavBar.vue';
+import Card from '@/components/ui/Card.vue';
 
 const { notify } = useToast()
+
+const search = ref('');
+
+const searchProducts = (value: string) => {
+  search.value = value
+}
 
 // Carga SSR
 const { data: products, pending, error } = await useAsyncData<Product[]>(
@@ -19,17 +26,24 @@ if (error.value) {
     color: 'danger',
   })
 }
+
+const filteredProducts = computed(() => {
+  if (search.value) {
+    return products.value?.filter((product: Product) => {
+      return product.title.toLowerCase().includes(search.value.toLowerCase())
+    })
+  }
+  return products.value
+})
 </script>
 
 <template>
-  <NavBar />
+  <NavBar @search="searchProducts" />
   <div v-if="pending" class="progress-container">
     <VaProgressCircle indeterminate :thickness="0.4" color="#A2D5C6"/>
   </div>
-  <div v-else>
-    <div v-for="product in products" :key="product.id">
-      <h1>{{ product.title }}</h1>
-    </div>
+  <div v-else class="product-container">
+    <Card v-for="product in filteredProducts" :key="product.id" :product="product"/>
   </div>
 
 </template>
@@ -39,5 +53,14 @@ if (error.value) {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.product-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 </style>

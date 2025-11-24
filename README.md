@@ -1,4 +1,4 @@
-# Nuxt Minimal Starter
+# Nuxt Ecommerce app
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 

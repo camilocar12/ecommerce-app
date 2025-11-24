@@ -4,4 +4,9 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@pinia/nuxt',"@vuestic/nuxt"],
   css: ['vuestic-ui/css','@mdi/font/css/materialdesignicons.css'],
+  runtimeConfig: {
+    public: {
+      apiUrl: process.env.API_URL,
+    },
+  },
 })

@@ -1,7 +1,12 @@
 <script setup lang="ts">
+import { useCartStore } from '@/stores/cart'
+
+const cartStore = useCartStore()
 const emit = defineEmits(['search'])
 
 const search = ref('')
+const showCart = ref(false)
+const cartItems = computed(() => cartStore.cart)
 
 watch(search, (newVal) => {
   emit('search', newVal)
@@ -35,11 +40,20 @@ watch(search, (newVal) => {
       </div>
     </template>
     <template #right>
-      <VaNavbarItem style="cursor: pointer;">
+      
+      <VaNavbarItem style="cursor: pointer;" @click="showCart = true">
+        <VaBadge
+          :text="cartStore.totalQuantity"
+          overlap
+          class="mr-6"
+          :offset="[-2,1]"
+          style="--va-badge-text-wrapper-border-radius: 50%;"
+        >
         <VaIcon
           color="#CFFFE2"
           name="shopping_cart"
         />
+        </VaBadge>
       </VaNavbarItem>
       <VaNavbarItem style="cursor: pointer;">
         <VaIcon
@@ -49,6 +63,40 @@ watch(search, (newVal) => {
       </VaNavbarItem>
     </template>
   </VaNavbar>
+  <VaModal
+    v-model="showCart"
+    hide-default-actions
+    overlay-opacity="0.2"
+  >
+    <template #header>
+      <p class="tack-sans-notch-font title">Cart</p>
+    </template>
+    <div v-for="item in cartItems" :key="item.product.id">
+      <div class="cart-item">
+        <div>
+          <p class="tack-sans-notch-font">{{ item.product.title }} x {{ item.quantity }}</p>
+          <p>Unit Price:  $ {{ item.product.price }}</p>
+          <p>Total:  $ {{ item.product.price * item.quantity }}</p>
+        </div>
+        <div class="cart-item-buttons">
+          <VaButton color="#A2D5C6" size="small" icon="add" @click="cartStore.addToCart(item.product)"/>
+          <p>{{ item.quantity }}</p>
+          <VaButton color="#A2D5C6" size="small" icon="remove" @click="cartStore.removeFromCart(item.product.id)"/> 
+        </div>
+      </div>
+    </div>
+    <div v-if="cartItems.length === 0">
+      <p class="tack-sans-notch-font">No items in cart</p>
+    </div>
+    <template #footer>
+      <div class="cart-total-container">
+        <div class="cart-total">
+          <p>Total Price:  $ {{ cartStore.totalPrice }}</p>
+        </div>
+        <VaButton color="#A2D5C6" size="large" :disabled="cartItems.length === 0">Checkout</VaButton>
+      </div>
+    </template>
+  </VaModal>
 </template>
 
 <style scoped>
@@ -65,5 +113,28 @@ watch(search, (newVal) => {
 
 .navbar-text-color{
   color: #F6F6F6;
+}
+
+.cart-item{
+  margin-block: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-item-buttons{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cart-total-container{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cart-total{
+  font-size: 18px;
+  font-weight: 700;
 }
 </style>

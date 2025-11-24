@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import type { Product } from '@/types/product';
 import { useToast } from 'vuestic-ui'
+import { useCartStore } from '@/stores/cart'
 
 const { id } = useRoute().params
 const { notify } = useToast()
 
+//use store
+const cartStore = useCartStore()
 const imageIndex = ref(0)
 
 const { data: product, pending, error } = await useAsyncData<Product>(
@@ -19,6 +22,19 @@ if (error.value) {
     color: 'danger',
   })
 }
+
+const addToCart = () => {
+  if (product.value) {
+    cartStore.addToCart(product.value)
+    notify({
+      title: 'Success',
+      message: 'Product added to cart',
+      color: 'success',
+    })
+  }
+}
+
+
 </script>
 
 <template>
@@ -41,7 +57,7 @@ if (error.value) {
         <p class="product-category">{{ product.category.name }}</p>
         <p class="product-price tack-sans-notch-font">$ {{ product.price }}</p>
       </div>
-      <VaButton class="product-add-to-cart-button" size="large" icon="shopping_cart" color="#A2D5C6">Add to Cart</VaButton>
+      <VaButton class="product-add-to-cart-button" size="large" icon="shopping_cart" color="#A2D5C6" @click="addToCart(product)">Add to Cart</VaButton>
     </div>
   </div>
 </template>

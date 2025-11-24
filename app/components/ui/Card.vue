@@ -4,12 +4,14 @@ import type { Product } from '@/types/product';
 const props = defineProps<{
   product: Product;
 }>()
+
+
 </script>
 
 <template>
   <div class="card" @click="navigateTo(`/products/${product.id}`)">
     <div class="card-image">
-      <img :src="product.images[0]" alt="product image" class="card-image">
+      <NuxtImg :src="product.images[0]" alt="product image" class="card-image" placeholder="./fallback.png"/>
     </div>
     <div class="card-content">
       <h3 class="card-title tack-sans-notch-font">{{ product.title }}</h3>

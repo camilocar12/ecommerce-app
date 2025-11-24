@@ -2,16 +2,11 @@
 import type { Product } from '@/types/product';
 import { useToast } from 'vuestic-ui'
 
-import NavBar from '@/components/ui/NavBar.vue';
 import Card from '@/components/ui/Card.vue';
 
 const { notify } = useToast()
 
-const search = ref('');
-
-const searchProducts = (value: string) => {
-  search.value = value
-}
+const search = inject<Ref<string>>('search', ref(''))
 
 // Carga SSR
 const { data: products, pending, error } = await useAsyncData<Product[]>(
@@ -38,7 +33,6 @@ const filteredProducts = computed(() => {
 </script>
 
 <template>
-  <NavBar @search="searchProducts" />
   <div v-if="pending" class="progress-container">
     <VaProgressCircle indeterminate :thickness="0.4" color="#A2D5C6"/>
   </div>

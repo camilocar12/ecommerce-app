@@ -7,7 +7,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="card">
+  <div class="card" @click="navigateTo(`/products/${product.id}`)">
     <div class="card-image">
       <img :src="product.images[0]" alt="product image" class="card-image">
     </div>

@@ -1,4 +1,17 @@
+<script setup lang="ts">
+import NavBar from '@/components/ui/NavBar.vue';
+
+const search = ref('');
+
+const searchProducts = (value: string) => {
+  search.value = value
+}
+
+provide('search', search)
+</script>
+
 <template>
+  <NavBar @search="searchProducts" />
   <NuxtPage />
 </template>
 

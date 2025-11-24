@@ -30,6 +30,7 @@ watch(search, (newVal) => {
         placeholder="Search your products"
         class="tack-sans-notch-font"
         color="#CFFFE2"
+        clearable
         />
       </div>
     </template>

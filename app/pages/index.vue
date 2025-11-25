@@ -19,6 +19,7 @@ if (error.value) {
     title: 'Error',
     message: 'Error al cargar los productos',
     color: 'danger',
+    position: 'bottom-right',
   })
 }
 

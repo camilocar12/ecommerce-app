@@ -22,6 +22,7 @@ if (error.value) {
     title: 'Error',
     message: 'Error al cargar el producto',
     color: 'danger',
+    position: 'bottom-right',
   })
 }
 
@@ -32,6 +33,7 @@ const addToCart = () => {
       title: 'Success',
       message: 'Product added to cart',
       color: 'success',
+      position: 'bottom-right',
     })
   }
 }

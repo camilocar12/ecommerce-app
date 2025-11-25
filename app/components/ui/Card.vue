@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import type { Product } from '@/types/product';
 
+const { isSignedIn } = useUser()
+
 const props = defineProps<{
   product: Product;
 }>()
 
-
+const memberDiscount= (basePrice: number) => {
+  return basePrice * 0.85
+}
 </script>
 
 <template>
@@ -15,7 +19,8 @@ const props = defineProps<{
     </div>
     <div class="card-content">
       <h3 class="card-title tack-sans-notch-font">{{ product.title }}</h3>
-      <p class="card-price tack-sans-notch-font">$ {{ product.price }}</p>
+      <p class="tack-sans-notch-font" :class="{'card-price': !isSignedIn}" :style="{ textDecoration: isSignedIn ? 'line-through' : 'none' }">$ {{ product.price }}</p>
+      <p v-if="isSignedIn" class="card-price tack-sans-notch-font">$ {{ memberDiscount(product.price) }}</p>
     </div>
   </div>
 </template>

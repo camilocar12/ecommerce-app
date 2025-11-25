@@ -63,6 +63,12 @@ watch(search, (newVal) => {
           name="person"
         />
         <p v-if="user">Hi {{ user.firstName }}</p>
+        <VaBadge
+          v-if="isSignedIn"
+          text="Member"
+          color="#CFFFE2"
+          class="mr-2"
+        />
         <SignInButton v-if="!isSignedIn" afterSignInUrl="/" class="clerk-button"/>
         <SignOutButton v-else afterSignOutUrl="/" class="clerk-button"/>
       </VaNavbarItem>

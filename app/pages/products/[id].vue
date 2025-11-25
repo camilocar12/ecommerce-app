@@ -5,6 +5,8 @@ import { useCartStore } from '@/stores/cart'
 
 const { id } = useRoute().params
 const { notify } = useToast()
+const { isSignedIn } = useUser()
+
 
 //use store
 const cartStore = useCartStore()
@@ -34,6 +36,10 @@ const addToCart = () => {
   }
 }
 
+const memberDiscount= (basePrice: number) => {
+  return basePrice * 0.85
+}
+
 
 </script>
 
@@ -44,7 +50,7 @@ const addToCart = () => {
   <div v-else class="product-details-container">
     <VaCarousel
       v-model="imageIndex"
-      :items="product.images || []"
+      :items="product?.images || []"
       color="black"
       height="50vh"
       width="50vw"
@@ -52,12 +58,14 @@ const addToCart = () => {
     />
     <div class="product-details">
       <div class="product-details-text">
-        <p class="product-title tack-sans-notch-font">{{ product.title }}</p>
-        <p class="product-description">{{ product.description }}</p>
-        <p class="product-category">{{ product.category.name }}</p>
-        <p class="product-price tack-sans-notch-font">$ {{ product.price }}</p>
+        <p class="product-title tack-sans-notch-font">{{ product?.title }}</p>
+        <p class="product-description">{{ product?.description }}</p>
+        <p class="product-category">{{ product?.category.name }}</p>
+        <p class="product-price tack-sans-notch-font" :style="{ textDecoration: isSignedIn ? 'line-through' : 'none' }">$ {{ product?.price }}</p>
+        <p v-if="isSignedIn" class="product-price tack-sans-notch-font">$ {{ memberDiscount(product?.price || 0) }} (Member Discount)</p>
+
       </div>
-      <VaButton class="product-add-to-cart-button" size="large" icon="shopping_cart" color="#A2D5C6" @click="addToCart(product)">Add to Cart</VaButton>
+      <VaButton class="product-add-to-cart-button" size="large" icon="shopping_cart" color="#A2D5C6" @click="addToCart()">Add to Cart</VaButton>
     </div>
   </div>
 </template>

@@ -54,9 +54,9 @@ const memberDiscount= (basePrice: number) => {
       v-model="imageIndex"
       :items="product?.images || []"
       color="black"
-      height="50vh"
-      width="50vw"
       indicators
+      height="50vh"
+      style="width: 50vw !important"
     />
     <div class="product-details">
       <div class="product-details-text">
@@ -123,5 +123,6 @@ const memberDiscount= (basePrice: number) => {
 .product-add-to-cart-button{
   width: fit-content;
 }
+
 
 </style>

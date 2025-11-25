@@ -2,10 +2,12 @@
 import { useCartStore } from '@/stores/cart'
 
 const cartStore = useCartStore()
+const { user , isSignedIn } = useUser()
 const emit = defineEmits(['search'])
 
 const search = ref('')
 const showCart = ref(false)
+
 const cartItems = computed(() => cartStore.cart)
 
 watch(search, (newVal) => {
@@ -55,11 +57,14 @@ watch(search, (newVal) => {
         />
         </VaBadge>
       </VaNavbarItem>
-      <VaNavbarItem style="cursor: pointer;">
+      <VaNavbarItem style="display: flex; align-items: center; gap: 10px;">
         <VaIcon
           color="#CFFFE2"
           name="person"
         />
+        <p v-if="user">Hi {{ user.firstName }}</p>
+        <SignInButton v-if="!isSignedIn" afterSignInUrl="/" class="clerk-button"/>
+        <SignOutButton v-else afterSignOutUrl="/" class="clerk-button"/>
       </VaNavbarItem>
     </template>
   </VaNavbar>
@@ -136,5 +141,20 @@ watch(search, (newVal) => {
 .cart-total{
   font-size: 18px;
   font-weight: 700;
+}
+
+.login-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.clerk-button{
+  background: #A2D5C6;
+  color: #000000;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 </style>

@@ -2,6 +2,7 @@
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
+
 ## Setup
 
 Make sure to install dependencies:
@@ -18,6 +19,14 @@ yarn install
 
 # bun
 bun install
+```
+
+Also create the .env file in the root of the proyect and add this variables:
+
+```bash
+API_URL=https://api.escuelajs.co/api/v1/products
+NUXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_c2VsZWN0LXJvYmluLTUyLmNsZXJrLmFjY291bnRzLmRldiQ
+NUXT_CLERK_SECRET_KEY=sk_test_21G0vC4suk1C2KsbHGcGqicRYTReqPCuZDzoll23Cu
 ```
 
 ## Development Server

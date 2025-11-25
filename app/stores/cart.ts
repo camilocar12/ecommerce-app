@@ -6,7 +6,7 @@ import type { CartItem } from '@/types/cart'
 export const useCartStore = defineStore('cart', () => {
   const cart = ref<CartItem[]>([])
 
-  // ============ Mutations ============
+  // ============ Actions ============
 
   function addToCart(product: Product) {
     const existing = cart.value.find((item) => item.product.id === product.id)

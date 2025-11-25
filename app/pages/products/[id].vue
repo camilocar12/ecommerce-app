@@ -6,10 +6,8 @@ import { useCartStore } from '@/stores/cart'
 const { id } = useRoute().params
 const { notify } = useToast()
 const { isSignedIn } = useUser()
-
-
-//use store
 const cartStore = useCartStore()
+
 const imageIndex = ref(0)
 
 const { data: product, pending, error } = await useAsyncData<Product>(

@@ -3,6 +3,7 @@ import { useCartStore } from '@/stores/cart'
 
 const cartStore = useCartStore()
 const { user , isSignedIn } = useUser()
+
 const emit = defineEmits(['search'])
 
 const search = ref('')
@@ -86,8 +87,8 @@ watch(search, (newVal) => {
       <div class="cart-item">
         <div>
           <p class="tack-sans-notch-font">{{ item.product.title }} x {{ item.quantity }}</p>
-          <p>Unit Price:  $ {{ item.product.price }}</p>
-          <p>Total:  $ {{ item.product.price * item.quantity }}</p>
+          <p>Unit Price:  $ {{ isSignedIn ? item.product.price * 0.85 : item.product.price }}</p>
+          <p>Total:  $ {{ isSignedIn ? item.product.price * 0.85 * item.quantity : item.product.price * item.quantity }}</p>
         </div>
         <div class="cart-item-buttons">
           <VaButton color="#A2D5C6" size="small" icon="add" @click="cartStore.addToCart(item.product)"/>
@@ -102,7 +103,7 @@ watch(search, (newVal) => {
     <template #footer>
       <div class="cart-total-container">
         <div class="cart-total">
-          <p>Total Price:  $ {{ cartStore.totalPrice }}</p>
+          <p>Total Price:  $ {{ isSignedIn ? cartStore.totalPrice * 0.85 : cartStore.totalPrice }}</p>
         </div>
         <VaButton color="#A2D5C6" size="large" :disabled="cartItems.length === 0">Checkout</VaButton>
       </div>
